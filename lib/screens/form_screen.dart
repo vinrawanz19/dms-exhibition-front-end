@@ -63,10 +63,9 @@ class _FormScreenState extends State<FormScreen> {
                 flushbarStyle: FlushbarStyle.FLOATING,
                 reverseAnimationCurve: Curves.decelerate,
                 forwardAnimationCurve: Curves.elasticOut,
-                title: "Success",
-                message: "${state.message}, please use another email.",
+                title: "Error",
+                message: state.message,
               ).show(context);
-              emailController.clear();
             }
           },
           builder: (context, state) {
