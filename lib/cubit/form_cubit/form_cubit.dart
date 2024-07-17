@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:indomobil_exhibition_front_end/api/service/content_service.dart';
 import 'package:indomobil_exhibition_front_end/api/service/form_service.dart';
 import 'package:indomobil_exhibition_front_end/models/content_model.dart';
@@ -22,14 +21,15 @@ class FormCubit extends Cubit<FormCubitState> {
   }
 
   void insertForm(FormModel data) async {
+    var curState = state as FormLoaded;
     try {
-      var curState = state as FormLoaded;
       emit(FormLoading());
       await FormService.createForm(data);
       emit(FormSubmit());
       emit(curState);
     } catch (e) {
       emit(FormError(message: e.toString()));
+      emit(curState);
     }
   }
 }

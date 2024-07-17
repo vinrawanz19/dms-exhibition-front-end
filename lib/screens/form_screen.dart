@@ -20,7 +20,7 @@ class _FormScreenState extends State<FormScreen> {
   TextEditingController namaController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController remarkController = TextEditingController();
+  TextEditingController domisiliController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +51,29 @@ class _FormScreenState extends State<FormScreen> {
               namaController.clear();
               phoneController.clear();
               emailController.clear();
-              remarkController.clear();
+              domisiliController.clear();
+            } else if (state is FormError) {
+              Flushbar(
+                backgroundColor: Colors.red,
+                margin: const EdgeInsets.all(8),
+                borderRadius: BorderRadius.circular(8),
+                isDismissible: true,
+                duration: const Duration(seconds: 5),
+                flushbarPosition: FlushbarPosition.BOTTOM,
+                flushbarStyle: FlushbarStyle.FLOATING,
+                reverseAnimationCurve: Curves.decelerate,
+                forwardAnimationCurve: Curves.elasticOut,
+                title: "Success",
+                message: "${state.message}, please use another email.",
+              ).show(context);
+              emailController.clear();
             }
           },
           builder: (context, state) {
             if (state is FormLoading) {
               return Center(
                 child: LoadingAnimationWidget.threeRotatingDots(
-                    color: Colors.blue, size: 100),
+                    color: Colors.blue, size: 50),
               );
             } else if (state is FormLoaded) {
               return Padding(
@@ -71,7 +86,7 @@ class _FormScreenState extends State<FormScreen> {
                         width: screenWidth * 0.3,
                         height: screenHeight * 0.1,
                         child: Image.network(
-                          "https://th.bing.com/th/id/R.4d7ecd77f71ca65ef5f278f6ee98f068?rik=vvjw3oJqDNtFJg&riu=http%3a%2f%2ftous-logos.com%2fwp-content%2fuploads%2f2017%2f08%2fLogo-Citro%c3%abn.png&ehk=miMCrHSX9LZWemcgw8wlpN3g3bqdkJVJYB4mxSwmvrk%3d&risl=&pid=ImgRaw&r=0",
+                          state.content.logoPath,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -134,8 +149,14 @@ class _FormScreenState extends State<FormScreen> {
                                               "Mohon untuk memasukan Email yang benar"),
                                     ],
                                     "Contoh: mail@gmail.com"),
-                                customTextField("Pesan/Kesan", remarkController,
-                                    [], "Contoh:lorem ipsum"),
+                                customTextField(
+                                    "Domisili",
+                                    domisiliController,
+                                    [
+                                      RequiredValidator(
+                                          errorText: "Domisili harus diisi")
+                                    ],
+                                    "Contoh:Jakarta"),
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),
@@ -157,7 +178,8 @@ class _FormScreenState extends State<FormScreen> {
                                                 email: emailController.text,
                                                 phoneNumber:
                                                     phoneController.text,
-                                                remark: remarkController.text,
+                                                domisili:
+                                                    domisiliController.text,
                                                 company: widget.path,
                                               ));
                                         }
@@ -178,21 +200,24 @@ class _FormScreenState extends State<FormScreen> {
             } else if (state is FormError) {
               return Center(
                 child: SizedBox(
-                  height: screenHeight * 0.3,
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                              "${state.message}. Please press the refresh button."),
-                          ElevatedButton(
-                              onPressed: () {
-                                html.window.location.reload();
-                              },
-                              child: const Text("Refresh"))
-                        ],
+                  height: screenHeight * 0.25,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                                "${state.message}. Please press the refresh button."),
+                            ElevatedButton(
+                                onPressed: () {
+                                  html.window.location.reload();
+                                },
+                                child: const Text("Refresh"))
+                          ],
+                        ),
                       ),
                     ),
                   ),

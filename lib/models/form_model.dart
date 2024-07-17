@@ -3,7 +3,7 @@ class FormModel {
   final String name;
   final String email;
   final String phoneNumber;
-  final String? remark;
+  final String domisili;
   final String company;
 
   FormModel({
@@ -11,7 +11,7 @@ class FormModel {
     required this.name,
     required this.email,
     required this.phoneNumber,
-    required this.remark,
+    required this.domisili,
     required this.company,
   });
 
@@ -20,7 +20,7 @@ class FormModel {
     String? name,
     String? email,
     String? phoneNumber,
-    String? remark,
+    String? domisili,
     String? company,
   }) =>
       FormModel(
@@ -28,7 +28,7 @@ class FormModel {
         name: name ?? this.name,
         email: email ?? this.email,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        remark: remark ?? this.remark,
+        domisili: domisili ?? this.domisili,
         company: company ?? this.company,
       );
 
@@ -37,7 +37,7 @@ class FormModel {
         name: json["name"],
         email: json["email"],
         phoneNumber: json["phone_number"],
-        remark: json["remark"],
+        domisili: json["domisili"],
         company: json["company"],
       );
 
@@ -46,7 +46,7 @@ class FormModel {
         "name": name,
         "email": email,
         "phone_number": phoneNumber,
-        "remark": remark,
+        "domisili": domisili,
         "company": company,
       };
 }
