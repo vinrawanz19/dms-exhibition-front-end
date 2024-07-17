@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 
 class ApiConfig {
-  static const baseUrl = 'http://localhost:8000';
+  static const baseUrl = 'http://localhost:8000'; //dev
+  // static const baseUrl = 'https://eventapi.indomobil.co.id';//prod
 
   static const baseUrlForm = '/form';
   static const baseUrlContent = '/content';
